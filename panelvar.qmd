@@ -1,0 +1,42 @@
+---
+title: "Panel VAR"
+categories: [Méthode complémentaire]
+toc: true
+toc-location: right
+toc-depth: 2
+---
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Méthode complémentaire : 
+
+ <div class="card" style="border: 2px solid #000; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; margin: 0 auto;">
+  <h3 style="text-align: center; font-size: 1.2em; color: #333;">Synthèse de significativité des variables par équation économétrique utilisées</h3>
+  <img src="VAR.png" alt="Variables complètes" style="width: 100%; height: auto; display: block; border-radius: 10px;" />
+<p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+</p>
+</div>
+
+
+<div style="border: 2px solid #000; border-radius: 10px; padding: 20px; width: 90%; margin: 50px auto;">
+  <div style="margin-bottom: 20px;">
+  <h3 style="text-align: center; font-size: 1.2em;">Modèle : Modèle avec Retards et Variables de Contrôle</h3>
+  <p style="font-size: 0.85em; color: #333; text-align: justify; line-height: 1.6;">
+      Nous analysons dans un premier temps le modèle 2 (modèle avec retards, PIB et matières premières), qui montre une forte dépendance temporelle des taux de défaillance des entreprises. En effet, les retards de premier et de deuxième ordre (lag(1) et lag(2)) sont significatifs à 1 % dans la majorité des secteurs. Cette dynamique souligne que les défaillances passées influencent de manière marquée les défaillances actuelles. En revanche, les variables de contrôle macroéconomiques, notamment le PIB, sont significatives dans certains secteurs (C, E, J), indiquant une corrélation entre les fluctuations économiques globales et la viabilité des entreprises. Par ailleurs, les matières premières jouent également un rôle important dans les secteurs sensibles à ces coûts, tels que E, F et J. Cependant, le test de Hansen, utilisé pour vérifier la validité des instruments, est partiellement rejeté dans certains secteurs (zones rouges). Cela pourrait suggérer des limites dans la spécification du modèle ou dans la qualité des instruments utilisés. Malgré ces réserves, les résultats montrent une bonne robustesse pour analyser les effets macroéconomiques et temporels sur les défaillances d’entreprises.
+  </p>
+  </div>
+
+  <div style="margin-bottom: 20px;">
+  <h3 style="text-align: center; font-size: 1.2em;">Modèle : Modèle Enrichi avec Variables Emission et Google Trends</h3>
+  <p style="font-size: 0.85em; color: #333; text-align: justify; line-height: 1.6;">
+      Nous pouvons dès lors passer à l’analyse du modèle 3 (le modèle 2 enrichi avec les variables liées aux gaz à effet de serre et aux tendances Google). Les retards temporels demeurent significatifs à 1 % dans la plupart des secteurs, confirmant une dynamique persistante des taux de défaillance. Les variables environnementales et celles issues de Google Trends apportent des résultats intéressants. Par exemple, les émissions de gaz à effet de serre (GES) se révèlent significatives dans certains secteurs, notamment le secteur H. De même, la préoccupation pour les catastrophes environnementales (particulièrement celles à prédominance hivernale) exerce une forte influence sur les secteurs Q et d'autres industries connexes. Ces résultats suggèrent que les contraintes environnementales et les particularités structurelles jouent un rôle déterminant dans certaines branches d’activité. Cependant, la robustesse statistique du modèle est légèrement affaiblie. En effet, le test de Hansen est plus fréquemment rejeté, probablement en raison de la complexité accrue du modèle et des difficultés à valider les instruments pour les nouvelles variables. Néanmoins, ces résultats restent pertinents pour explorer des aspects spécifiques liés à l’environnement et à leur impact sur différents secteurs.
+  </p>
+  </div>
+
+  <div>
+  <h3 style="text-align: center; font-size: 1.2em;">Comparaison des Modèles</h3>
+  <p style="font-size: 0.85em; color: #333; text-align: justify; line-height: 1.6;">
+      En conclusion, le Résultat 2 propose une analyse robuste des effets économiques et temporels sur les défaillances, avec une validation statistique solide. En revanche, le Résultat 3 enrichit cette analyse en intégrant des dimensions environnementales et sectorielles, mais au prix d’une validation statistique partielle. Pour une vue d’ensemble fiable, le Résultat 2 est à privilégier. Cependant, le Résultat 3 offre des perspectives intéressantes pour approfondir les analyses spécifiques liées à l’environnement et aux particularités sectorielles. Ces deux modèles se complètent mutuellement et permettent d’obtenir une meilleure compréhension des mécanismes influençant les défaillances d’entreprises.
+  </p>
+  </div>
+</div>

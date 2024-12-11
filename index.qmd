@@ -1,0 +1,32 @@
+---
+title: "Page d'accueil"
+author: "Equipe du DRIM GAME"
+date: "2024-11-07"
+categories: [Présentation]
+toc: true
+toc-location: right
+toc-depth: 2
+---
+<div style="text-align: center; border-top: 2px solid black; border-bottom: 2px solid black; padding: 20px;">
+  <h1>DRIM GAME 2024</h1>
+</div>
+
+<div style="text-align: center; margin-top: 20px;">
+  <p>
+  <strong>
+      Analyser les relations entre la défaillance d’entreprises de taille différente au sein d’un même secteur industriel et déterminer dans quelle mesure ces relations sont dépendantes ou non de la conjoncture et du niveau d’émission de GES des différents secteurs.
+  </strong>
+  </p>
+</div>
+
+<footer style="text-align: center; margin-top: 40px;">
+  <p>Master 2 Économétrie et Statistique, parcours Économétrie Appliquée</p>
+</footer>
+
+<div style="display: flex; justify-content: center; gap: 20px; margin: 50px auto;">
+  <div style="margin-top: 30px; text-align: center; border-top: 1px solid #ccc; padding-top: 20px;">
+  <p style="font-size: 0.9em; color: #555; line-height: 1.6;">
+      Équipe du <strong>DRIM Game</strong> : Lilou Onno, Amel Dahmani, Mathilde Jamin, Rodolphe Mocaër, Touman Niamiti Bethel
+  </p>
+  </div>
+</div>

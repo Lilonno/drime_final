@@ -1,0 +1,25 @@
+---
+title: "Equipe DRIM"
+image: profilD.png
+about:
+  template: jolla
+  links:
+    - icon: linkedin
+      text: Amel Dahmani
+      href: https://www.linkedin.com/in/amel-dahmani-ecap/
+    - icon: linkedin
+      text: Lilou Onno
+      href: https://www.linkedin.com/in/lilou-onno-409123232/
+    - icon: linkedin
+      text: Niamiti Bethel Touman
+      href: https://www.linkedin.com/in/niamiti-bethel-touman-6a166719b/
+    - icon: linkedin
+      text: Mathilde Jamin
+      href: https://www.linkedin.com/in/mathilde-jamin-990673214/ 
+    - icon: linkedin
+      text: Rodolphe Mocaër
+      href: https://linkedin.com/in/rodolphe-mocaër-00aa832b3/
+
+---
+
+A propos de notre projet

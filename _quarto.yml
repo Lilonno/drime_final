@@ -1,0 +1,38 @@
+project:
+  type: website
+
+website:
+  title: "Site du DRIM GAME"
+  navbar:
+    left:
+      - text: "Accueil"
+        href: index.qmd
+      - text: "Revue de littérature"
+        href: index2.qmd
+      - text: "Etude relationnelle"
+        href: etude.qmd
+      - text: "Données de Panel"
+        href: DP.qmd
+      - text: "Panel VAR"
+        href: panelvar.qmd
+      - text: "Machine learning"
+        href: random.qmd
+        
+    right:
+      - text: "À propos"
+        href: about.qmd
+      - icon: github
+        href: https://github.com/
+      - icon: twitter
+        href: https://twitter.com
+
+format:
+  html:
+    theme: cosmo
+    css: assets/css/styles.css
+    toc: true
+    toc-location: right
+    toc-depth: 2
+
+
+

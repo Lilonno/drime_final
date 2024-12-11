@@ -1,0 +1,75 @@
+---
+title: "Machine learning"
+categories: [Random forest, Réseaux de neuronnes]
+toc: true
+toc-location: right
+toc-depth: 2
+---
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Random forest
+
+### Arbre de décision
+
+<div style="text-align: center; margin: 30px 0;">
+
+  <p style="font-size: 1em; color: #555 ; line-height: 1.6; text-align: justify; max-width: 600px; margin: 0 auto;">Résumé Graphique de la Performance du Modèle de Forêt Aléatoire</p>
+
+  <a href="https://random-forest-1w78.onrender.com/" 
+     style="display: inline-block; margin-top: 20px; padding: 10px 20px; 
+            background-color: #E0E0E0; color: black; text-decoration: none; 
+            border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);transition: background-color 0.3s ease;"> 
+            Cliquez ici pour accéder au site interactif </a>
+
+</div>
+
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+ <div class="card" style="border: 2px solid #000; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: 0 auto;">
+  <h3 style="text-align: center; font-size: 1.2em; color: #333;">Arbre de décision</h3>
+  <img src="un.png" alt="Variables complètes" style="width: 100%; height: auto; display: block; border-radius: 10px;" />
+  <p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+    L'arbre de classification permet d'évaluer le <strong>risque de crédit</strong> et de prédire la <strong>probabilité de défaut</strong> des entreprises en les segmentant selon des critères tels que leur <strong>taille</strong>, <strong>secteur d'activité</strong>, <strong>endettement</strong>, <strong>rentabilité</strong>, <strong>trésorerie</strong>, <strong>marges bénéficiaires</strong>, ainsi que des facteurs <strong>conjoncturels</strong> comme l'<strong>environnement économique</strong>, les évolutions <strong>sectorielles</strong> et les variations des <strong>taux d'intérêt</strong> ou des conditions de marché.
+  </p>
+</div>
+
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+### Importance des variables
+
+ <div class="card" style="border: 2px solid #000; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: 0 auto;">
+  <h3 style="text-align: center; font-size: 1.2em; color: #333;">Forêt aléatoire</h3>
+  <img src="deux.png" alt="Variables complètes" style="width: 100%; height: auto; display: block; border-radius: 10px;" />
+<p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+  Nous estimons un modèle de <strong>forêt aléatoire</strong>, qui combine plusieurs <strong>arbres de décision</strong> pour améliorer la <strong>prédiction</strong> en capturant des relations <strong>non linéaires complexes</strong>. Cette approche réduit le <strong>surajustement</strong> et identifie les <strong>variables clés</strong>, telles que la <strong>taille des entreprises</strong> et la <strong>rémunération des salariés</strong>, qui influencent le <strong>risque de défaillance</strong>. Grâce à sa <strong>robustesse</strong>, elle offre des <strong>prédictions plus fiables</strong> et <strong>interprétables</strong>.
+</p>
+</div>
+
+
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+### Distribution des profondeurs minimales
+
+ <div class="card" style="border: 2px solid #000; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: 0 auto;">
+  <h3 style="text-align: center; font-size: 1.2em; color: #333;"></h3>
+  <img src="trois.png" alt="Variables complètes" style="width: 100%; height: auto; display: block; border-radius: 10px;" />
+<p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+  Nous analysons les <strong>profondeurs minimales et moyennes</strong> des variables. La <strong>taille d'entreprise</strong> et la <strong>rémunération des salariés</strong> sont sélectionnées près de la <strong>racine des arbres</strong>, tandis que des variables comme le <strong>code Nace</strong> et la <strong>consommation</strong> ont un rôle <strong>secondaire</strong>. Le modèle enregistre un <strong>taux d’erreur de 14%</strong> avec une <strong>sensibilité de 87%</strong> et une <strong>spécificité de 88%</strong>.
+</p>
+</div>
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Réseau de neurones
+
+ <div class="card" style="border: 2px solid #000; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 500px; margin: 0 auto;">
+  <h3 style="text-align: center; font-size: 1.2em; color: #333;"></h3>
+  <img src="output.png" alt="Réseau de neurones et importance des variables" style="width: 100%; height: auto; display: block; border-radius: 10px;" />
+<p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+  Nous analysons les <strong>profondeurs minimales et moyennes</strong> des variables. La <strong>taille d'entreprise</strong> et la <strong>rémunération des salariés</strong> sont sélectionnées près de la <strong>racine des arbres</strong>, tandis que des variables comme le <strong>code Nace</strong> et le <strong>taux de change</strong> ont un rôle <strong>secondaire</strong>. Le modèle enregistre un <strong>taux d’erreur de 10%</strong> avec une <strong>sensibilité de 88%</strong> et une <strong>spécificité de 93%</strong>.
+</p>
+</div>

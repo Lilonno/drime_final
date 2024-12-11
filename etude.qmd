@@ -1,0 +1,377 @@
+---
+title: "Etude relationelle du taux de défaillance"
+categories: [Lien interactif, Base de données, Visualisation exploratoire, Regression avec intéraction, Rapport de corrélation, Régression taux de défaillance]
+toc: true
+toc-location: right
+toc-depth: 2
+---
+## Analyse des défaillances d'entreprise
+
+<div style="text-align: center; margin: 30px 0;">
+
+  <p style="font-size: 1em; color: #555; line-height: 1.6; text-align: justify; max-width: 600px; margin: 0 auto;">Découvrez un site interactif permettant d'explorer les tendances et les dynamiques des défaillances d'entreprise au fil du temps.</p>
+
+  <a href="https://lilouonno.shinyapps.io/essaie/" 
+     style="display: inline-block; margin-top: 20px; padding: 10px 20px; 
+            background-color: #E0E0E0; color: black; text-decoration: none; 
+            border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);transition: background-color 0.3s ease;"> 
+            Cliquez ici pour accéder au site interactif </a>
+
+</div>
+
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Base de données
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(DT)
+
+# Création du tableau 
+data <- data.frame(
+  Variables = "Indication",
+  Nace = "A",
+  Année = 2016,
+  Secteurs = "Agriculture, Sylviculture Et Pêche",
+  temps = "2016-12-31 00:00:00 UTC",
+  taux_3mois = 0,
+  taux_6mois = 0,
+  Groupes = "Primaire",
+  Tailles = "ETI",
+  CH4_CO2E = 38897829.41,
+  CO2 = 14169829,
+  CO2_BIO = 1231620.99,
+  GES = 88241389.73,
+  HFC_CO2E = 86629.98,
+  N2O_CO2E = 35087100.88,
+  NF3_SF6_CO2E = 0,
+  PFC_CO2E = 0,
+  PIB = 552109,
+  IPC = 100.46,
+  Conso = 15.827,
+  taux_chomage = 9.7,
+  Matieres = 107.433333,
+  Dette = 1623973.67,
+  Conf_Ménage = 100,
+  Conf_Entreprise = 100.6304,
+  taux_interet = 0.58,
+  taux_change = 1.078945313,
+  CAC40 = 4.587462188,
+  VIX = 1409.793651,
+  Tempête = 4,
+  Inondation = 7,
+  Sécheresse = 6.33333333,
+  Séisme = 10,
+  Ouragan = 4,
+  Canicule = 1,
+  Glissement_terrain = 13.3333333,
+  Orage = 3.33333333,
+  Incendie = 8.33333333,
+  Precipitation = 56,
+  Température = 28.3333333,
+  Valeur_ajoutée = 29861.4,
+  Rémunération_employés = 10325.5,
+  Excédent_exp_revenus_mixtes = 15319,
+  Taxes = -7458.8,
+  Domestiques_employés = 336.4,
+  Domestiques_travailleurs_independants = 397.1,
+  Tot_immobilisations = 213921,
+  Construction_immo = 78690,
+  Logements_immo = 0,
+  Batiment_immo = 78690,
+  Machinerie_immo = 99097,
+  Transport_immo = 5044,
+  ICT_immo = 248,
+  Ordinateur_immo= 248,
+  Telecommunication_immo = 0,
+  Autre_machinerie_immo = 93805,
+  Ressources_cultivés_immo = 30695,
+  Brevets_immo = 5439,
+  R_D_immo = 5323,
+  Ordinateur_logiciel_immo = 116,
+  Investissement_infrastructure_eco = -2.206154509,
+  Emission_indus = -4.786725486,
+  Emission_agri = 4.498819769,
+  Catastrophe_estivale = -1.326602747,
+  Catastrophe_hivernal = -0.3850909919
+)
+
+# Rendre le tableau interactif
+datatable(
+  data,
+  options = list(
+    dom = 't',
+    scrollX = TRUE,
+    columnDefs = list(list(orderable = FALSE, targets = "_all"))
+  ),
+  caption = "Aperçu : 1624 observations de 2016 à 2023"
+)
+```
+
+<div style="text-align: center; margin: 30px 0;">
+<p style="font-size: 1em; color: #555; line-height: 1; text-align: justify; max-width: 400px; margin: 0 auto;">
+<strong>Variables principales :</strong><br>
+<ul style="text-align: left; padding-left: 20px;">
+<li><strong>Défaillance des entreprises :</strong>
+<ul>
+<li>Taux à <strong>3 mois</strong> et <strong>6 mois</strong>.</li>
+<li>Segmentation des entreprises selon la taille :
+<ul>
+<li><strong>GE</strong> (200+ salariés)</li>
+<li><strong>ETI</strong> (50-200)</li>
+<li><strong>PME</strong> (10-50)</li>
+<li><strong>TPE</strong> (3-10)</li>
+</ul>
+</li>
+<li>Secteurs d'activité inclus (cf code NACE ci-dessous).</li>
+</ul>
+</li>
+<li><strong>Émissions de gaz à effet de serre (GES) :</strong>
+<ul>
+<li>Six gaz pris en compte : <strong>CH₄</strong>, <strong>CO₂</strong>, <strong>PFC</strong>, ... (Protocole de Kyoto, 1997).</li>
+<li>Données exprimées en <strong>équivalents carbone</strong> pour éviter les biais.</li>
+</ul>
+</li>
+<li><strong>Conjoncture économique :</strong>
+<ul>
+<li>Variables intégrées : <strong>PIB</strong>, <strong>taux d'intérêt</strong>, <strong>taux de change</strong>, <strong>indicateurs de confiance</strong> (ménages/entreprises), etc.</li>
+</ul>
+</li>
+<li><strong>Catastrophes naturelles :</strong>
+<ul>
+<li>Variables relatives aux événements majeurs : <strong>tempêtes</strong>, <strong>inondations</strong>, <strong>séismes</strong>, <strong>canicules</strong>, ...</li>
+</ul>
+</li>
+<li><strong>Temporalité :</strong> 
+<ul>
+<li>Données agrégées trimestriellement, choix retenu pour sa pertinence vis-à-vis du <strong>taux de défaillance à 3 mois</strong>.</li>
+</ul>
+</li>
+<li><strong>Variables Latentes :</strong> Conjoncture économique, GES et Catastrophes naturelles <a href="ACP.pdf" target="_blank">(cliquez ici pour l'analyse)</a></li>
+</ul>
+</p>
+</div>
+
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Visualisation exploratoire
+
+<div style="display: flex; justify-content: center; gap: 20px; margin: 50px auto; flex-wrap: wrap;">
+
+  <div class="card" style="border: 2px solid #333; border-radius: 5px; padding: 20px; max-width: 350px; background-color: #f8f8f8;">
+  <p class="card-title" style="font-size: 1.2em; font-weight: bold; text-align: center; color: #333;">Histogramme des 3 secteurs par taux de défaillance 3 mois et 6 mois</p>
+  <img src="hist1.png" alt="hist1" style="max-width: 100%; margin: 20px 0;" />
+  <ul style="list-style-type: none; padding: 0; font-size: 0.8em; color: #333;">
+  <li style="margin-bottom: 10px;"><strong> Analyse tableau :</strong>Nous pouvons constater que **le secteur secondaire** présente le taux de défaillance le plus élevé sur les périodes de 3 et 6 mois. Cette tendance peut s'expliquer par des facteurs tels que la concurrence plus forte, les coûts de production élevés et la sensibilité aux fluctuations économiques tels que la crise du COVID et le début de la guerre en Ukraine, rendant les entreprises de ce secteur particulièrement vulnérables aux difficultés financières.</li>
+  </ul>
+  </div>
+
+
+
+
+  <div class="card" style="border: 2px solid #333; border-radius: 5px; padding: 20px; max-width: 350px; background-color: #f8f8f8;">
+  <p class="card-title" style="font-size: 1.2em; font-weight: bold; text-align: center; color: #333;">Répartition des Taux de Défaillance sur 3 Mois par Secteur d'Activité (14 Secteurs)</p>
+  <img src="hist2.png" alt="hist2" style="max-width: 100%; margin: 20px 0;" />
+  <ul style="list-style-type: none; padding: 0; font-size: 0.8em; color: #333;">
+  <li style="margin-bottom: 10px;"><strong> Analyse tableau :</strong>Trois secteurs se démarquent particulièrement : **Transports et entreposage**, **Construction**, et **Hébergement et restauration**. Cette observation est cohérente, car ces secteurs ont été fortement impactés, notamment durant la crise du COVID-19, ce qui a pu fortement joué sur la défaillance de ces entreprises.</li>
+  </ul>
+  </div>
+
+
+
+<!-- Regression avec interaction : MCO première partie  -->
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Régression avec interaction
+
+<style>
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 35px; /* Espace entre les images */
+    margin: 20px auto;
+    max-width: 1200px;
+  }
+
+  .image-container img {
+    max-width: 33%; /* Augmente la largeur relative des images */
+    height: auto;
+    border: 2px solid black; /* Bordures noires et épaisses */
+    border-radius: 8px; /* Coins arrondis */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Ombre pour un effet élégant */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .image-container img:hover {
+    transform: scale(1.08); /* Zoom plus important au survol */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Ombre accentuée au survol */
+  }
+
+  .description {
+    font-size: 1.1em; /* Texte légèrement plus grand */
+    color: #333; /* Couleur plus foncée pour une meilleure lisibilité */
+    line-height: 1.8;
+    text-align: center;
+    max-width: 800px;
+    margin: 20px auto;
+  }
+</style>
+
+<div class="image-container">
+  <img src="MI1.png" alt="Image 1">
+  <img src="MI2.png" alt="Image 2">
+  <img src="MI3.png" alt="Image 3">
+</div>
+
+<div style="text-align: center; margin: 30px 0;">
+  <p style="font-size: 1em; color: #555; line-height: 1; text-align: justify; max-width: 400px; margin: 0 auto;">
+    <strong>Analyse des défaillances selon la taille et le secteur :</strong><br><br>
+  <ul style="text-align: left; padding-left: 20px;">
+  <li><strong>Comparaison avec les GE et le secteur de la construction :</strong>
+  <ul>
+  <li>Les <strong>PME et TPE</strong> montrent des taux de défaillance significativement plus élevés dans plusieurs secteurs.</li>
+  </ul>
+  </li>
+  <li><strong>Secteurs les plus vulnérables pour les PME et TPE :</strong>
+  <ul>
+  <li><strong>Activités financières et d’assurance (K)</strong> : Forte dépendance à la conjoncture économique.</li>
+  <li><strong>Commerce et réparation d’automobiles (G)</strong> : Forte intensité concurrentielle.</li>
+  <li><strong>Services administratifs et de soutien (N)</strong> : Haute vulnérabilité en raison de l'environnement concurrentiel.</li>
+  </ul>
+  </li>
+  <li><strong>Secteurs plus résilients pour les petites entreprises :</strong>
+  <ul>
+  <li><strong>Industrie manufacturière (C)</strong> et <strong>Transport et entreposage (H)</strong> : Moins influencés par la taille des entreprises.</li>
+  </ul>
+  </li>
+  <li><strong>Analyse quantile :</strong>
+  <ul>
+  <li>Les <strong>TPE et PME</strong> sont particulièrement vulnérables aux défaillances en situations extrêmes.</li>
+  <li>Les grandes entreprises, protégées par l'effet <strong>"too big to fail"</strong>, bénéficient de mécanismes de soutien inexistants pour les petites structures.</li>
+  </ul>
+  </li>
+  </ul>
+  </p>
+</div>
+
+
+  <!-- Rapport de corrélation  -->
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Rapport de corrélation 
+
+<div style="font-size: 0.9em; color: #333; text-align: justify; margin-top: 20px;">
+  <p><strong>Code NACE - Secteurs d’activité</strong></p>
+  <ul style="list-style-type: none; padding: 0;">
+    <li><strong>A</strong> : Agriculture, sylviculture et pêche</li>
+    <li><strong>C</strong> : Industrie manufacturière</li>
+    <li><strong>D</strong> : Production et distribution d’électricité, de gaz, de vapeur et d’air conditionné</li>
+    <li><strong>E</strong> : Production et distribution d’eau, assainissement, gestion des déchets et dépollution</li>
+    <li><strong>F</strong> : Construction</li>
+    <li><strong>G</strong> : Commerce, réparation d’automobiles et de motocycles</li>
+    <li><strong>H</strong> : Transport et entreposage</li>
+    <li><strong>I</strong> : Hébergement et restauration</li>
+    <li><strong>J</strong> : Information et communication</li>
+    <li><strong>K</strong> : Activités financières et d’assurance</li>
+    <li><strong>L</strong> : Activités immobilières</li>
+    <li><strong>M</strong> : Activités spécialisées, scientifiques et techniques</li>
+    <li><strong>N</strong> : Activités de services administratifs et de soutien</li>
+    <li><strong>Q</strong> : Santé humaine et action sociale</li>
+  </ul>
+</div>
+
+
+<div style="display: flex; justify-content: center; gap: 20px; margin: 50px auto;">
+  
+  <div style="text-align: center; border: 2px solid black; padding: 10px; width: 450px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  
+  <p style="margin-top: 10px; font-size: 0.9em; color: #333;">Synthèse des rapports de corrélation des taux de défaillance par secteur</p>
+    
+  <img src="tableau.png" alt="Image 1" style="width: 355px; height: auto; margin-bottom: 10px;" />
+    
+  <p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+      <span style="font-weight: bold;">x</span> : non valide (Hypothèse H0 non validée) <br>
+      <span style="font-weight: bold;">o</span> : valide (Hypothèse H0 validée) <br>
+      <span style="color: green; font-weight: bold;">- En vert :</span> les secteurs dont le rapport de corrélation est le plus fort (3 meilleurs) <br>
+      <span style="color: red; font-weight: bold;">- 
+      En rouge :</span> les secteurs dont le rapport de corrélation est le plus faible (3 pires) <br><br>
+En raison du non-respect des hypothèses de normalité, nous avons utilisé le test de Kruskal-Wallis comme alternative au test de Fisher. Les résultats indiquent l’existence de différences statistiquement significatives entre les groupes analysés, avec une faible probabilité que ces différences soient dues au hasard (seuil de 5 % pour la majorité des secteurs et de 1 % pour les secteurs D et N).
+Par ailleurs, bien que les hypothèses de normalité ne soient pas respectées, cela n’empêche pas l’analyse des corrélations entre les variables étudiées. Nous observons que le secteur C (Industrie manufacturière) présente le rapport de corrélation le plus élevé (29 %), tandis que le secteur D (Production et distribution d’électricité, de gaz, de vapeur et d’air conditionné) montre le plus faible (3 %). Ces résultats suggèrent que la taille des entreprises a une influence significative sur le taux de défaillance dans le secteur (C), tandis qu’elle joue un rôle marginal dans le secteur (D).
+    </p>
+  
+  </div>
+
+  <div style="text-align: center; border: 2px solid black; padding: 10px; width: 450px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+
+  <p style="margin-top: 10px; font-size: 0.9em; color: #333;">Moyenne de rang entre taille d’entreprise et taux de défaillance par secteur</p>
+    
+  <img src="tableau2.png" alt="Image 1" style="width: 355px; height: auto; margin-bottom: 10px;" />
+    
+  <p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+      <span style="color: green; font-weight: bold;">- En vert :</span>  la taille d’entreprise la moins défaillante (pour 3 mois) (en fonction de la moyenne de rang) <br>
+      <span style="color: red; font-weight: bold;">- 
+      En rouge :</span> la taille d’entreprise la plus défaillante (pour 3 mois) (en fonction de la moyenne de rang)
+    </p>
+
+  </div>
+
+</div>
+
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+## Régression du taux de défaillance GE / Conjoncture
+  <!-- MCO  -->
+
+<div style="display: flex; justify-content: center; gap: 20px; margin: 50px auto; flex-wrap: wrap;">
+
+  <div class="card" style="border: 2px solid #333; border-radius: 5px; padding: 20px; max-width: 350px; background-color: #f8f8f8;">
+  <p class="card-title" style="font-size: 1.2em; font-weight: bold; text-align: center; color: #333;">Taux de défaillance par Taille d'entreprise</p>
+  <img src="MCObis.png" alt="MCObis" style="max-width: 100%; margin: 20px 0;" />
+  <ul style="list-style-type: none; padding: 0; font-size: 0.8em; color: #333;">
+  <li style="margin-bottom: 10px;"><strong>TPE & PME :</strong> On observe une interdépendance notable de leurs taux de défaillance.</li>
+  <li style="margin-bottom: 10px;"><strong>ETI :</strong> Résultats plus variables selon les secteurs, mais globalement plus résilientes que les petites entreprises grâce à leur taille intermédiaire et à une meilleure gestion des risques.</li>
+  <li style="margin-bottom: 10px;"><strong>GE :</strong> On observe plus un taux de défaillance relativement indépendants de ceux des autres structures.</li>
+  </ul>
+  <p style="margin-top: 10px; color: #333;font-size: 0.8em;">L'importance de la taille de l'entreprise est un facteur déterminant pour sa vulnérabilité ou sa résilience face aux risques économiques. Les petites structures sont plus fragiles, tandis que les grandes entreprises sont mieux préparées à gérer ces risques.</p>
+      
+  <hr style="border: 0; border-top: 1px solid #ccc; margin-top: 20px;"/>
+  <p style="font-size: 0.7em; color: #777;">Lexique :</p>
+  <ul style="list-style-type: none; padding: 0; font-size: 0.7em; color: #777;">
+  <li style="margin-bottom: 5px;">TPE : Très Petites Entreprises</li>
+  <li style="margin-bottom: 5px;">PME : Petites et Moyennes Entreprises</li>
+  <li style="margin-bottom: 5px;">ETI : Entreprises de Taille Intermédiaire</li>
+  <li style="margin-bottom: 5px;">GE : Grandes Entreprises</li>
+  </ul>
+  </div>
+
+  <!-- Deuxième section identique -->
+  <div class="card" style="border: 2px solid #333; border-radius: 5px; padding: 20px; max-width: 350px; background-color: #f8f8f8;">
+  <p class="card-title" style="font-size: 1.2em; font-weight: bold; text-align: center; color: #333;">Régression du taux de défaillance GE sur variable conjoncturelle</p>
+  <img src="MCOtrue.png" alt="MCO6" style="max-width: 100%; margin: 20px 0;" />
+  <ul style="list-style-type: none; padding: 0; font-size: 0.8em; color: #333;">
+  <li style="margin-bottom: 10px;"><strong>Défaillance des TPE :</strong>  La défaillance des TPE influence directement celle des grandes.</li>
+  <li style="margin-bottom: 10px;"><strong>Confiance des ménages :</strong> Baisse de la demande augmentant le risque de défaillance.</li>
+  <li style="margin-bottom: 10px;"><strong>Recherche et développement:</strong> Faible investissement en R&D réduit la capacité des GE à innover, les rendant moins compétitives.</li>
+  </ul>
+  <p style="margin-top: 10px; color: #333;font-size: 0.8em;">Face aux défis économiques, les grandes entreprises doivent non seulement gérer les pressions externes, comme la fragilité des petites structures et la baisse de la demande, mais aussi capitaliser sur leurs ressources internes et leur résilience organisationnelle pour renforcer leur compétitivité et assurer leur pérennité</p>
+  
+  <hr style="border: 0; border-top: 1px solid #ccc; margin-top: 20px;"/>
+  <p style="font-size: 0.7em; color: #777;">Lexique :</p>
+  <ul style="list-style-type: none; padding: 0; font-size: 0.7em; color: #777;">
+  <li style="margin-bottom: 5px;">Rouge : Relation significative et négative</li>
+  <li style="margin-bottom: 5px;">Vert : Relation significative et positive</li>
+  </ul>
+  </div>
+</div>
+
+<hr style="border: 1px solid black; width: 100%; margin: 20px 0;">
+
+
+## Zoom sur deux secteurs industriels
