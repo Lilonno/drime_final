@@ -150,8 +150,8 @@ datatable(
 <li><strong>Conjoncture économique :</strong>
 <ul>
   <li>Variables intégrées : <strong>PIB</strong>, <strong>taux d'intérêt</strong>, <strong>taux de change</strong>, <strong>indicateurs de confiance</strong> (ménages/entreprises), etc.</li>
-  <li>Variables binaires représentant les événements économiques et historiques (1 : événement a eu lieu, sinon 0) : <strong>Covid</strong>, <strong>Ukraine</strong></li>
-  <li>Données rajoutées lors de la finale : <strong>Le pétrole en brent</strong>, <strong>Prix unitaire de différentes énergies (gaz, électricité ...)</strong>, <strong>Brexit</strong></li>
+  <li>Variables binaires représentant les événements économiques et historiques (1 : événement a eu lieu, sinon 0) : <strong>Covid</strong>, <strong>Ukraine</strong></li>,<strong>Brexit</strong>
+  <li>Données rajoutées lors de la finale : <strong>Le pétrole en brent</strong>, <strong>Prix unitaire de différentes énergies (gaz, électricité ...)</strong></li>
 </ul>
 <li><strong>Catastrophes naturelles :</strong>
 <ul>
