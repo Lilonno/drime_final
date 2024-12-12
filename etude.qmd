@@ -1,6 +1,6 @@
 ---
 title: "Etude relationelle du taux de défaillance"
-categories: [Lien interactif, Base de données, Visualisation exploratoire, Regression avec intéraction, Rapport de corrélation, Régression taux de défaillance]
+categories: [Lien interactif, Base de données, Visualisation exploratoire, Regression avec intéraction, Rapport de corrélation, Régression taux de défaillance, Zoom sur deux secteurs]
 toc: true
 toc-location: right
 toc-depth: 2
@@ -97,7 +97,18 @@ data <- data.frame(
   Emission_indus = -4.786725486,
   Emission_agri = 4.498819769,
   Catastrophe_estivale = -1.326602747,
-  Catastrophe_hivernal = -0.3850909919
+  Catastrophe_hivernal = -0.3850909919,
+  Covid = 0,
+  Ukraine = 0, 
+  Brexit = 0,
+  Petrole_brent = 49.188,
+  Elec = 105.2, 
+  gaz = 90.8, 
+  Vapeur = 92.7, 
+  Pétrole = 74.9, 
+  Compustion = 74.3, 
+  Ensemble = 90.9
+  
 )
 
 # Rendre le tableau interactif
@@ -138,9 +149,10 @@ datatable(
 </li>
 <li><strong>Conjoncture économique :</strong>
 <ul>
-<li>Variables intégrées : <strong>PIB</strong>, <strong>taux d'intérêt</strong>, <strong>taux de change</strong>, <strong>indicateurs de confiance</strong> (ménages/entreprises), etc.</li>
+  <li>Variables intégrées : <strong>PIB</strong>, <strong>taux d'intérêt</strong>, <strong>taux de change</strong>, <strong>indicateurs de confiance</strong> (ménages/entreprises), etc.</li>
+  <li>Variables binaires représentant les événements économiques et historiques (1 : événement a eu lieu, sinon 0) : <strong>Covid</strong>, <strong>Ukraine</strong></li>
+  <li>Données rajoutées lors de la finale : <strong>Le pétrole en brent</strong>, <strong>Prix unitaire de différentes énergies (gaz, électricité ...)</strong>, <strong>Brexit</strong></li>
 </ul>
-</li>
 <li><strong>Catastrophes naturelles :</strong>
 <ul>
 <li>Variables relatives aux événements majeurs : <strong>tempêtes</strong>, <strong>inondations</strong>, <strong>séismes</strong>, <strong>canicules</strong>, ...</li>
@@ -151,7 +163,7 @@ datatable(
 <li>Données agrégées trimestriellement, choix retenu pour sa pertinence vis-à-vis du <strong>taux de défaillance à 3 mois</strong>.</li>
 </ul>
 </li>
-<li><strong>Variables Latentes :</strong> Conjoncture économique, GES et Catastrophes naturelles <a href="ACP.pdf" target="_blank">(cliquez ici pour l'analyse)</a></li>
+<li><strong>Variables Latentes :</strong> Conjoncture économique, GES et Catastrophes naturelles <a href="trou.pdf" target="_blank">(cliquez ici pour l'analyse)</a></li>
 </ul>
 </p>
 </div>
@@ -375,3 +387,19 @@ Par ailleurs, bien que les hypothèses de normalité ne soient pas respectées, 
 
 
 ## Zoom sur deux secteurs industriels
+
+
+ <div class="card" style="border: 2px solid #000; border-radius: 10px; padding: 10px; display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 700px; margin: 0 auto;">
+  <h3 style="text-align: center; font-size: 1.2em; color: #333;">Zoom sur deux secteurs industriels construction et industrie manufacturière</h3>
+  <img src="zoom.png" alt="Variables complètes" style="width: 100%; height: auto; display: block; border-radius: 10px;" />
+<p style="font-size: 0.85em; color: #333; margin-top: 10px; text-align: justify; line-height: 1.6;">
+</p>
+</div>
+
+<div style="border: 2px solid #000; border-radius: 10px; padding: 20px; width: 90%; margin: 50px auto;">
+  <div style="margin-bottom: 20px;">
+  <h3 style="text-align: center; font-size: 1.2em;">Analyse sur cette sélection</h3>
+  <p style="font-size: 0.85em; color: #333; text-align: justify; line-height: 1.6;">
+     Ce tableau ressence un analyse des taux de défaillance en ciblant deux secteurs d'activité, le secteur de la construction et de l'industrie manufacturière. Afin de voir les variables qui peuvent impacter communement ces deux secteurs. On a 8 variables qui ressortent comme statistiquement significative à la fois négativement et positivement, dont le prix de l'électricité, le prix du gaz et la consommation des ménages. Cela met en évidence l'importance des coût energetique et de la demande économique dans la survie des entreprises. 
+  </p>
+  </div>

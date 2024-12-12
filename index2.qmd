@@ -99,7 +99,7 @@ Le dioxyde de carbone (CO₂) est sans doute le gaz à effet de serre le plus co
 
 </div>
 
-# Les catastrophes naturelles avec Google Trend
+# Les catastrophes naturelles avec Google Trends
 
 <style>
 .justify {
